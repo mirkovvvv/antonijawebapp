@@ -1,15 +1,1750 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My Web App</title>
+<meta charset="UTF-8">
+
+<meta name="viewport"
+      content="width=device-width,
+      initial-scale=1.0,
+      maximum-scale=1.0,
+      user-scalable=no">
+
+<meta name="theme-color" content="#fffdf9">
+
+<title>For My Beautiful Girlfriend ♡</title>
+
+<style>
+
+/* =========================
+   BASIC SETUP
+========================= */
+
+* {
+    box-sizing: border-box;
+    -webkit-tap-highlight-color: transparent;
+}
+
+html,
+body {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    min-height: 100%;
+
+    font-family:
+        -apple-system,
+        BlinkMacSystemFont,
+        "Segoe UI",
+        sans-serif;
+
+    background: #fffdf9;
+    color: #171717;
+}
+
+body {
+    min-height: 100svh;
+    overflow-x: hidden;
+}
+
+
+/* =========================
+   FLOATING BACKGROUND
+========================= */
+
+#floating-background {
+    position: fixed;
+    inset: 0;
+
+    overflow: hidden;
+
+    pointer-events: none;
+
+    z-index: 0;
+}
+
+.floating {
+    position: absolute;
+
+    bottom: -60px;
+
+    opacity: 0.15;
+
+    font-size: 22px;
+
+    animation-name: floatUp;
+    animation-timing-function: linear;
+    animation-iteration-count: infinite;
+}
+
+@keyframes floatUp {
+
+    from {
+        transform:
+            translateY(0)
+            translateX(0)
+            rotate(0deg);
+    }
+
+    to {
+        transform:
+            translateY(-120vh)
+            translateX(var(--drift))
+            rotate(20deg);
+    }
+
+}
+
+
+/* =========================
+   APP CONTAINER
+========================= */
+
+.app {
+
+    position: relative;
+
+    z-index: 1;
+
+    width: 100%;
+
+    max-width: 560px;
+
+    min-height: 100svh;
+
+    margin: auto;
+
+    padding:
+        45px
+        20px
+        40px;
+}
+
+
+/* =========================
+   HOME
+========================= */
+
+.home {
+
+    min-height:
+        calc(100svh - 85px);
+
+    display: flex;
+
+    flex-direction: column;
+
+    justify-content: center;
+
+    align-items: center;
+
+    text-align: center;
+}
+
+.small-heart {
+
+    font-size: 20px;
+
+    margin-bottom: 10px;
+
+    opacity: 0.75;
+}
+
+h1 {
+
+    margin: 0;
+
+    font-size: 34px;
+
+    line-height: 1.1;
+
+    font-weight: 800;
+
+    letter-spacing: -1px;
+}
+
+.intro {
+
+    max-width: 420px;
+
+    margin:
+        17px
+        auto
+        30px;
+
+    color: #625e5a;
+
+    font-size: 15px;
+
+    line-height: 1.65;
+}
+
+
+/* =========================
+   MENU BUTTONS
+========================= */
+
+.menu {
+
+    width: 100%;
+
+    display: grid;
+
+    gap: 12px;
+}
+
+.menu-button {
+
+    width: 100%;
+
+    border:
+        1px solid
+        #eee8df;
+
+    background:
+        rgba(255,255,255,0.9);
+
+    border-radius: 19px;
+
+    padding: 16px;
+
+    display: flex;
+
+    align-items: center;
+
+    text-align: left;
+
+    gap: 14px;
+
+    box-shadow:
+        0 5px 18px
+        rgba(50,35,20,0.045);
+
+    font-family: inherit;
+
+    cursor: pointer;
+
+    transition:
+        transform .18s ease,
+        box-shadow .18s ease;
+}
+
+.menu-button:active {
+
+    transform:
+        scale(0.965);
+}
+
+.icon {
+
+    width: 45px;
+
+    height: 45px;
+
+    flex-shrink: 0;
+
+    display: grid;
+
+    place-items: center;
+
+    border-radius: 14px;
+
+    background: #fff1ef;
+
+    font-size: 22px;
+}
+
+.menu-text strong {
+
+    display: block;
+
+    margin-bottom: 3px;
+
+    font-size: 16px;
+}
+
+.menu-text span {
+
+    display: block;
+
+    color: #77716c;
+
+    font-size: 12px;
+
+    line-height: 1.35;
+}
+
+
+/* =========================
+   PAGES
+========================= */
+
+.page {
+
+    animation:
+        pageAppear
+        .35s
+        ease;
+}
+
+@keyframes pageAppear {
+
+    from {
+
+        opacity: 0;
+
+        transform:
+            translateY(10px);
+    }
+
+    to {
+
+        opacity: 1;
+
+        transform:
+            translateY(0);
+    }
+
+}
+
+.back {
+
+    border: none;
+
+    background: none;
+
+    padding: 5px 0;
+
+    margin-bottom: 24px;
+
+    color: #77716c;
+
+    font-family: inherit;
+
+    font-size: 14px;
+
+    cursor: pointer;
+}
+
+.page h2 {
+
+    margin: 0;
+
+    font-size: 30px;
+
+    letter-spacing: -0.7px;
+}
+
+.subtitle {
+
+    color: #77716c;
+
+    font-size: 14px;
+
+    line-height: 1.55;
+
+    margin:
+        8px
+        0
+        24px;
+}
+
+
+/* =========================
+   CARDS
+========================= */
+
+.card {
+
+    background:
+        rgba(255,255,255,0.91);
+
+    border:
+        1px solid
+        #eee8df;
+
+    border-radius: 20px;
+
+    padding: 21px;
+
+    margin-bottom: 13px;
+
+    box-shadow:
+        0 5px 18px
+        rgba(50,35,20,0.04);
+}
+
+.card h3 {
+
+    margin:
+        0
+        0
+        8px;
+
+    font-size: 17px;
+}
+
+.card p {
+
+    margin: 0;
+
+    color: #5f5a56;
+
+    font-size: 14px;
+
+    line-height: 1.65;
+}
+
+
+/* =========================
+   LETTER
+========================= */
+
+.letter {
+
+    line-height: 1.75;
+}
+
+
+/* =========================
+   OPEN WHEN
+========================= */
+
+.open-button {
+
+    width: 100%;
+
+    padding: 17px;
+
+    margin-bottom: 10px;
+
+    border:
+        1px solid
+        #eee8df;
+
+    background:
+        rgba(255,255,255,0.9);
+
+    border-radius: 17px;
+
+    text-align: left;
+
+    font-family: inherit;
+
+    font-size: 15px;
+
+    cursor: pointer;
+}
+
+.open-message {
+
+    display: none;
+
+    margin:
+        -3px
+        0
+        12px;
+
+    padding: 18px;
+
+    background: #fff8f6;
+
+    border-radius: 16px;
+
+    color: #5f5a56;
+
+    font-size: 14px;
+
+    line-height: 1.65;
+}
+
+
+/* =========================
+   REASONS
+========================= */
+
+.reason {
+
+    display: flex;
+
+    gap: 12px;
+
+    align-items: flex-start;
+}
+
+.reason-number {
+
+    width: 30px;
+
+    height: 30px;
+
+    flex-shrink: 0;
+
+    display: grid;
+
+    place-items: center;
+
+    border-radius: 50%;
+
+    background: #fff1ef;
+
+    font-size: 13px;
+
+    font-weight: 700;
+}
+
+
+/* =========================
+   MEMORIES
+========================= */
+
+.memory {
+
+    display: flex;
+
+    gap: 14px;
+
+    align-items: flex-start;
+}
+
+.memory-icon {
+
+    font-size: 26px;
+
+    line-height: 1;
+}
+
+
+/* =========================
+   COUNTER
+========================= */
+
+.big-heart {
+
+    text-align: center;
+
+    font-size: 65px;
+
+    margin:
+        5px
+        0
+        20px;
+}
+
+.counter {
+
+    text-align: center;
+
+    font-size: 20px;
+
+    font-weight: 700;
+}
+
+.counter-small {
+
+    margin-top: 8px;
+
+    text-align: center;
+
+    color: #77716c;
+
+    font-size: 13px;
+}
+
+
+/* =========================
+   FUTURE
+========================= */
+
+.future {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 12px;
+}
+
+.future-icon {
+
+    font-size: 24px;
+}
+
+
+/* =========================
+   BIRTHDAY
+========================= */
+
+.birthday {
+
+    text-align: center;
+}
+
+.birthday h2 {
+
+    margin-bottom: 10px;
+}
+
+.birthday-heart {
+
+    font-size: 70px;
+
+    margin:
+        15px
+        0;
+}
+
+.birthday-message {
+
+    font-size: 15px;
+
+    color: #5f5a56;
+
+    line-height: 1.7;
+}
+
+
+/* =========================
+   FOOTER
+========================= */
+
+.footer {
+
+    margin-top: 30px;
+
+    text-align: center;
+
+    color: #aaa29b;
+
+    font-size: 12px;
+}
+
+
+/* =========================
+   DESKTOP
+========================= */
+
+@media (min-width: 700px) {
+
+    .menu-button:hover {
+
+        transform:
+            translateY(-2px);
+
+        box-shadow:
+            0 8px 24px
+            rgba(50,35,20,0.08);
+    }
+
+}
+
+</style>
 </head>
+
 
 <body>
 
-    <h1>Hello!</h1>
-    <p>My website is working.</p>
+
+<!-- =========================
+     FLOATING HEARTS / BEARS
+========================= -->
+
+<div id="floating-background"></div>
+
+
+<!-- =========================
+     APP
+========================= -->
+
+<main class="app">
+
+
+<!-- =========================
+     HOME SCREEN
+========================= -->
+
+<section id="home" class="home page">
+
+    <div class="small-heart">
+        ♡
+    </div>
+
+    <h1>
+        For My Beautiful Girlfriend
+    </h1>
+
+    <p class="intro">
+
+        I made this little place
+        just for you.
+
+        Every part of it is a tiny
+        reminder of how much you
+        mean to me.
+
+        ♡
+
+    </p>
+
+
+    <div class="menu">
+
+
+        <button
+            class="menu-button"
+            onclick="openPage('letter')">
+
+            <div class="icon">
+                💌
+            </div>
+
+            <div class="menu-text">
+
+                <strong>
+                    A Letter For You
+                </strong>
+
+                <span>
+                    Something I want you to know
+                </span>
+
+            </div>
+
+        </button>
+
+
+        <button
+            class="menu-button"
+            onclick="openPage('openwhen')">
+
+            <div class="icon">
+                🫂
+            </div>
+
+            <div class="menu-text">
+
+                <strong>
+                    Open When...
+                </strong>
+
+                <span>
+                    Little messages for different moments
+                </span>
+
+            </div>
+
+        </button>
+
+
+        <button
+            class="menu-button"
+            onclick="openPage('reasons')">
+
+            <div class="icon">
+                🤍
+            </div>
+
+            <div class="menu-text">
+
+                <strong>
+                    Things I Love About You
+                </strong>
+
+                <span>
+                    A few of the countless reasons
+                </span>
+
+            </div>
+
+        </button>
+
+
+        <button
+            class="menu-button"
+            onclick="openPage('memories')">
+
+            <div class="icon">
+                📸
+            </div>
+
+            <div class="menu-text">
+
+                <strong>
+                    Our Memories
+                </strong>
+
+                <span>
+                    Little moments I never want to forget
+                </span>
+
+            </div>
+
+        </button>
+
+
+        <button
+            class="menu-button"
+            onclick="openPage('story')">
+
+            <div class="icon">
+                🫶
+            </div>
+
+            <div class="menu-text">
+
+                <strong>
+                    Our Story
+                </strong>
+
+                <span>
+                    Since the day we became us
+                </span>
+
+            </div>
+
+        </button>
+
+
+        <button
+            class="menu-button"
+            onclick="openPage('future')">
+
+            <div class="icon">
+                🔮
+            </div>
+
+            <div class="menu-text">
+
+                <strong>
+                    Future Us
+                </strong>
+
+                <span>
+                    Things I want to experience with you
+                </span>
+
+            </div>
+
+        </button>
+
+
+        <button
+            class="menu-button"
+            onclick="openPage('birthday')">
+
+            <div class="icon">
+                🎁
+            </div>
+
+            <div class="menu-text">
+
+                <strong>
+                    Your Birthday Surprise
+                </strong>
+
+                <span>
+                    You should probably open this one
+                </span>
+
+            </div>
+
+        </button>
+
+
+    </div>
+
+
+    <div class="footer">
+
+        made with love ♡
+
+    </div>
+
+</section>
+
+
+
+<!-- =========================
+     LETTER
+========================= -->
+
+<section
+    id="letter"
+    class="page"
+    hidden>
+
+    <button
+        class="back"
+        onclick="goHome()">
+
+        ← Back
+
+    </button>
+
+
+    <h2>
+        A Letter For You 💌
+    </h2>
+
+    <p class="subtitle">
+        A little piece of my heart.
+    </p>
+
+
+    <div class="card letter">
+
+        My beautiful girl,
+
+        <br><br>
+
+        I don't think I could ever fit everything
+        I feel for you into one little website,
+        but I wanted to try anyway.
+
+        <br><br>
+
+        You have become such a special part
+        of my life, and even the most ordinary
+        days feel different when I get to share
+        them with you.
+
+        <br><br>
+
+        Thank you for the laughs, the conversations,
+        the random moments, the memories,
+        and simply for being you.
+
+        <br><br>
+
+        I love you.
+
+        <br><br>
+
+        And I hope you always remember that. ♡
+
+    </div>
+
+</section>
+
+
+
+<!-- =========================
+     OPEN WHEN
+========================= -->
+
+<section
+    id="openwhen"
+    class="page"
+    hidden>
+
+    <button
+        class="back"
+        onclick="goHome()">
+
+        ← Back
+
+    </button>
+
+
+    <h2>
+        Open When... 🫂
+    </h2>
+
+    <p class="subtitle">
+        Pick one. I wrote these for you.
+    </p>
+
+
+    <button
+        class="open-button"
+        onclick="toggleMessage('sad')">
+
+        💗 Open when you're sad
+
+    </button>
+
+    <div
+        id="sad"
+        class="open-message">
+
+        Come here.
+
+        <br><br>
+
+        Whatever happened, you don't have
+        to deal with everything alone.
+
+        I wish I could give you a huge hug
+        right now.
+
+        <br><br>
+
+        Remember that I love you,
+        and tomorrow can always be better. ♡
+
+    </div>
+
+
+
+    <button
+        class="open-button"
+        onclick="toggleMessage('miss')">
+
+        🥺 Open when you miss me
+
+    </button>
+
+    <div
+        id="miss"
+        class="open-message">
+
+        I probably miss you too.
+
+        <br><br>
+
+        Close your eyes for a second
+        and imagine me giving you
+        the biggest hug possible.
+
+        <br><br>
+
+        Now you owe me one when I see you. 🤍
+
+    </div>
+
+
+
+    <button
+        class="open-button"
+        onclick="toggleMessage('sleep')">
+
+        🌙 Open when you can't sleep
+
+    </button>
+
+    <div
+        id="sleep"
+        class="open-message">
+
+        Put your phone down after reading this.
+
+        <br><br>
+
+        Get comfortable, close your eyes,
+        and let your brain finally rest.
+
+        <br><br>
+
+        Goodnight, beautiful. 🧸
+
+    </div>
+
+
+
+    <button
+        class="open-button"
+        onclick="toggleMessage('smile')">
+
+        😂 Open when you need to smile
+
+    </button>
+
+    <div
+        id="smile"
+        class="open-message">
+
+        Congratulations.
+
+        You have officially been reminded
+        that your boyfriend is obsessed with you.
+
+        <br><br>
+
+        You're welcome. 😂❤️
+
+    </div>
+
+</section>
+
+
+
+<!-- =========================
+     REASONS
+========================= -->
+
+<section
+    id="reasons"
+    class="page"
+    hidden>
+
+    <button
+        class="back"
+        onclick="goHome()">
+
+        ← Back
+
+    </button>
+
+
+    <h2>
+        Things I Love About You 🤍
+    </h2>
+
+    <p class="subtitle">
+        And this list could honestly go forever.
+    </p>
+
+
+    <div class="card reason">
+
+        <div class="reason-number">
+            1
+        </div>
+
+        <p>
+            Your smile. It can completely
+            change the mood of a moment.
+        </p>
+
+    </div>
+
+
+    <div class="card reason">
+
+        <div class="reason-number">
+            2
+        </div>
+
+        <p>
+            The way you care about people
+            and the little things you notice.
+        </p>
+
+    </div>
+
+
+    <div class="card reason">
+
+        <div class="reason-number">
+            3
+        </div>
+
+        <p>
+            Our conversations. Even when
+            we're talking about absolutely nothing.
+        </p>
+
+    </div>
+
+
+    <div class="card reason">
+
+        <div class="reason-number">
+            4
+        </div>
+
+        <p>
+            Your little quirks that make you
+            completely and uniquely you.
+        </p>
+
+    </div>
+
+
+    <div class="card reason">
+
+        <div class="reason-number">
+            5
+        </div>
+
+        <p>
+            Simply you. I don't need a complicated
+            explanation for why I love you.
+        </p>
+
+    </div>
+
+</section>
+
+
+
+<!-- =========================
+     MEMORIES
+========================= -->
+
+<section
+    id="memories"
+    class="page"
+    hidden>
+
+    <button
+        class="back"
+        onclick="goHome()">
+
+        ← Back
+
+    </button>
+
+
+    <h2>
+        Our Memories 📸
+    </h2>
+
+    <p class="subtitle">
+        Our story, one little memory at a time.
+    </p>
+
+
+    <div class="card memory">
+
+        <div class="memory-icon">
+            🌷
+        </div>
+
+        <div>
+
+            <h3>
+                The beginning
+            </h3>
+
+            <p>
+                June 7, 2026 — the day
+                our story officially began.
+            </p>
+
+        </div>
+
+    </div>
+
+
+    <div class="card memory">
+
+        <div class="memory-icon">
+            🥰
+        </div>
+
+        <div>
+
+            <h3>
+                More memories coming
+            </h3>
+
+            <p>
+                This is where we'll put our
+                favorite moments together.
+            </p>
+
+        </div>
+
+    </div>
+
+
+    <div class="card">
+
+        <h3>
+            📷 Our photos
+        </h3>
+
+        <p>
+            We'll turn this into a beautiful
+            little photo gallery once you
+            give me the pictures.
+        </p>
+
+    </div>
+
+</section>
+
+
+
+<!-- =========================
+     STORY
+========================= -->
+
+<section
+    id="story"
+    class="page"
+    hidden>
+
+    <button
+        class="back"
+        onclick="goHome()">
+
+        ← Back
+
+    </button>
+
+
+    <h2>
+        Our Story 🫶
+    </h2>
+
+    <p class="subtitle">
+        And we're only getting started.
+    </p>
+
+
+    <div class="card">
+
+        <div class="big-heart">
+            ♡
+        </div>
+
+        <div
+            id="dayCounter"
+            class="counter">
+
+            Together for 0 days
+
+        </div>
+
+        <div class="counter-small">
+
+            Since June 7, 2026
+
+        </div>
+
+    </div>
+
+
+    <div class="card">
+
+        <h3>
+            And counting...
+        </h3>
+
+        <p>
+            More days. More laughs.
+            More adventures. More memories.
+            More us.
+        </p>
+
+    </div>
+
+</section>
+
+
+
+<!-- =========================
+     FUTURE
+========================= -->
+
+<section
+    id="future"
+    class="page"
+    hidden>
+
+    <button
+        class="back"
+        onclick="goHome()">
+
+        ← Back
+
+    </button>
+
+
+    <h2>
+        Future Us 🔮
+    </h2>
+
+    <p class="subtitle">
+        Things I want to experience with you.
+    </p>
+
+
+    <div class="card future">
+
+        <div class="future-icon">
+            🌎
+        </div>
+
+        <p>
+            Go somewhere we've never been.
+        </p>
+
+    </div>
+
+
+    <div class="card future">
+
+        <div class="future-icon">
+            🎬
+        </div>
+
+        <p>
+            Have a ridiculous movie night.
+        </p>
+
+    </div>
+
+
+    <div class="card future">
+
+        <div class="future-icon">
+            📸
+        </div>
+
+        <p>
+            Take way too many pictures together.
+        </p>
+
+    </div>
+
+
+    <div class="card future">
+
+        <div class="future-icon">
+            🌙
+        </div>
+
+        <p>
+            Have one of those random
+            late-night adventures.
+        </p>
+
+    </div>
+
+
+    <div class="card future">
+
+        <div class="future-icon">
+            ❤️
+        </div>
+
+        <p>
+            Keep making memories
+            for a very, very long time.
+        </p>
+
+    </div>
+
+</section>
+
+
+
+<!-- =========================
+     BIRTHDAY
+========================= -->
+
+<section
+    id="birthday"
+    class="page birthday"
+    hidden>
+
+    <button
+        class="back"
+        onclick="goHome()">
+
+        ← Back
+
+    </button>
+
+
+    <h2>
+        Happy Birthday, Beautiful 🎂
+    </h2>
+
+
+    <div class="birthday-heart">
+        🎁
+    </div>
+
+
+    <div class="card">
+
+        <p class="birthday-message">
+
+            Happy birthday to my beautiful girl.
+
+            <br><br>
+
+            I hope this year brings you
+            everything you deserve.
+
+            Happiness.
+
+            Peace.
+
+            Adventures.
+
+            And a ridiculous amount
+            of reasons to smile.
+
+            <br><br>
+
+            I'm incredibly happy that I get
+            to be beside you through it.
+
+            <br><br>
+
+            I love you. 🤍
+
+        </p>
+
+    </div>
+
+
+    <div class="card">
+
+        <div class="birthday-heart">
+            🧸🤍🧸
+        </div>
+
+        <p class="birthday-message">
+
+            Your official birthday
+            teddy-bear delivery has arrived.
+
+            <br><br>
+
+            Unfortunately, it only contains
+            one virtual hug.
+
+            <br>
+
+            The real one has to wait
+            until I see you. 🫂
+
+        </p>
+
+    </div>
+
+</section>
+
+
+</main>
+
+
+
+<script>
+
+/* =========================
+   PAGE NAVIGATION
+========================= */
+
+const pages =
+    document.querySelectorAll(".page");
+
+
+function openPage(id) {
+
+    pages.forEach(page => {
+
+        page.hidden = true;
+
+    });
+
+
+    document
+        .getElementById(id)
+        .hidden = false;
+
+
+    window.scrollTo(0, 0);
+
+
+    updateCounter();
+
+}
+
+
+function goHome() {
+
+    openPage("home");
+
+}
+
+
+/* =========================
+   OPEN WHEN
+========================= */
+
+function toggleMessage(id) {
+
+    const message =
+        document.getElementById(id);
+
+
+    if (
+        message.style.display === "block"
+    ) {
+
+        message.style.display = "none";
+
+    } else {
+
+        message.style.display = "block";
+
+    }
+
+}
+
+
+/* =========================
+   RELATIONSHIP COUNTER
+========================= */
+
+function updateCounter() {
+
+    const start =
+        new Date(2026, 5, 7);
+
+    const today =
+        new Date();
+
+
+    start.setHours(0, 0, 0, 0);
+
+    today.setHours(0, 0, 0, 0);
+
+
+    const difference =
+        today - start;
+
+
+    const days =
+        Math.max(
+            0,
+            Math.floor(
+                difference /
+                86400000
+            )
+        );
+
+
+    const counter =
+        document.getElementById(
+            "dayCounter"
+        );
+
+
+    if (counter) {
+
+        counter.textContent =
+            `Together for ${days} ${
+                days === 1
+                    ? "day"
+                    : "days"
+            }`;
+
+    }
+
+}
+
+
+/* =========================
+   FLOATING HEARTS / BEARS
+========================= */
+
+const symbols = [
+
+    "♡",
+    "🤍",
+    "♥",
+    "♡",
+    "🧸",
+    "♡",
+    "🤍",
+    "♥"
+
+];
+
+
+function createFloating() {
+
+    const element =
+        document.createElement("div");
+
+
+    element.className =
+        "floating";
+
+
+    element.textContent =
+        symbols[
+            Math.floor(
+                Math.random()
+                * symbols.length
+            )
+        ];
+
+
+    const size =
+        16 +
+        Math.random() * 13;
+
+
+    const position =
+        Math.random() * 100;
+
+
+    const duration =
+        20 +
+        Math.random() * 12;
+
+
+    const delay =
+        Math.random() *
+        -duration;
+
+
+    const drift =
+        (
+            Math.random()
+            * 120
+            - 60
+        ) + "px";
+
+
+    element.style.left =
+        position + "%";
+
+
+    element.style.fontSize =
+        size + "px";
+
+
+    element.style.animationDuration =
+        duration + "s";
+
+
+    element.style.animationDelay =
+        delay + "s";
+
+
+    element.style.setProperty(
+        "--drift",
+        drift
+    );
+
+
+    document
+        .getElementById(
+            "floating-background"
+        )
+        .appendChild(element);
+
+}
+
+
+/* Create background decorations */
+
+for (
+    let i = 0;
+    i < 18;
+    i++
+) {
+
+    createFloating();
+
+}
+
+
+/* Start counter */
+
+updateCounter();
+
+</script>
+
 
 </body>
 </html>
