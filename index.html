@@ -1,1750 +1,1851 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <meta name="apple-mobile-web-app-title" content="Our Book">
+
+    <title>A Virtual Book About Us</title>
+
+    <style>
+        /* =========================================================
+           BASIC SETUP
+        ========================================================= */
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html,
+        body {
+            width: 100%;
+            min-height: 100%;
+        }
+
+        body {
+            font-family: Georgia, "Times New Roman", serif;
+            background: #fdfbf7;
+            color: #292522;
+            overflow-x: hidden;
+        }
+
+        button {
+            font-family: inherit;
+        }
+
+        /* =========================================================
+           FLOATING BACKGROUND DECORATIONS
+        ========================================================= */
+
+        #floatingDecorations {
+            position: fixed;
+            inset: 0;
+            overflow: hidden;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .floating-decoration {
+            position: absolute;
+            bottom: -60px;
+            opacity: 0.13;
+            font-size: 20px;
+            animation: floatUp linear infinite;
+        }
+
+        @keyframes floatUp {
+            0% {
+                transform: translateY(0) rotate(0deg);
+                opacity: 0;
+            }
+
+            10% {
+                opacity: 0.13;
+            }
+
+            90% {
+                opacity: 0.13;
+            }
+
+            100% {
+                transform: translateY(-115vh) rotate(25deg);
+                opacity: 0;
+            }
+        }
+
+        /* =========================================================
+           INTRO / BOOK COVER
+        ========================================================= */
+
+        #intro {
+            position: fixed;
+            inset: 0;
+            z-index: 20;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            background: #fdfbf7;
+
+            transition:
+                opacity 1s ease,
+                visibility 1s ease;
+        }
 
-<meta name="viewport"
-      content="width=device-width,
-      initial-scale=1.0,
-      maximum-scale=1.0,
-      user-scalable=no">
+        #intro.hidden {
+            opacity: 0;
+            visibility: hidden;
+            pointer-events: none;
+        }
 
-<meta name="theme-color" content="#fffdf9">
+        .intro-title {
+            text-align: center;
 
-<title>For My Beautiful Girlfriend ♡</title>
+            font-size: clamp(42px, 11vw, 78px);
+            line-height: 1.02;
+            font-weight: 700;
+            letter-spacing: -2px;
 
-<style>
+            transition:
+                transform 1.4s cubic-bezier(.22, .8, .25, 1),
+                opacity 0.8s ease;
+        }
 
-/* =========================
-   BASIC SETUP
-========================= */
+        /* =========================================================
+           MAIN APPLICATION
+        ========================================================= */
 
-* {
-    box-sizing: border-box;
-    -webkit-tap-highlight-color: transparent;
-}
+        #app {
+            position: relative;
+            z-index: 2;
 
-html,
-body {
-    margin: 0;
-    padding: 0;
-    width: 100%;
-    min-height: 100%;
+            min-height: 100svh;
 
-    font-family:
-        -apple-system,
-        BlinkMacSystemFont,
-        "Segoe UI",
-        sans-serif;
+            opacity: 0;
+            transform: translateY(20px);
 
-    background: #fffdf9;
-    color: #171717;
-}
+            transition:
+                opacity 1.2s ease,
+                transform 1.2s ease;
+        }
 
-body {
-    min-height: 100svh;
-    overflow-x: hidden;
-}
+        #app.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
 
+        /* =========================================================
+           HOME PAGE
+        ========================================================= */
 
-/* =========================
-   FLOATING BACKGROUND
-========================= */
+        #home {
+            min-height: 100svh;
+            padding: 25px 15px 40px;
 
-#floating-background {
-    position: fixed;
-    inset: 0;
+            position: relative;
+        }
 
-    overflow: hidden;
+        .book-title {
+            position: relative;
+            z-index: 5;
 
-    pointer-events: none;
+            text-align: center;
 
-    z-index: 0;
-}
+            font-size: clamp(27px, 7vw, 45px);
+            line-height: 1.02;
+            font-weight: 700;
 
-.floating {
-    position: absolute;
+            margin: 4px auto 0;
+        }
 
-    bottom: -60px;
+        .book-title span {
+            display: block;
+        }
 
-    opacity: 0.15;
+        .scrapbook {
+            position: relative;
 
-    font-size: 22px;
+            width: 100%;
+            max-width: 600px;
 
-    animation-name: floatUp;
-    animation-timing-function: linear;
-    animation-iteration-count: infinite;
-}
+            height: 700px;
 
-@keyframes floatUp {
+            margin: 5px auto 0;
+        }
 
-    from {
-        transform:
-            translateY(0)
-            translateX(0)
-            rotate(0deg);
-    }
+        /* =========================================================
+           POLAROIDS
+        ========================================================= */
 
-    to {
-        transform:
-            translateY(-120vh)
-            translateX(var(--drift))
-            rotate(20deg);
-    }
+        .polaroid {
+            position: absolute;
 
-}
+            width: 155px;
 
+            background: #fff;
 
-/* =========================
-   APP CONTAINER
-========================= */
+            padding: 9px 9px 14px;
 
-.app {
+            box-shadow:
+                0 8px 20px rgba(45, 35, 25, 0.14);
 
-    position: relative;
+            cursor: pointer;
 
-    z-index: 1;
+            user-select: none;
 
-    width: 100%;
+            transition:
+                transform 0.45s ease,
+                box-shadow 0.3s ease,
+                opacity 0.4s ease;
+        }
 
-    max-width: 560px;
+        .polaroid:hover {
+            box-shadow:
+                0 14px 28px rgba(45, 35, 25, 0.20);
+        }
 
-    min-height: 100svh;
+        .polaroid.opening {
+            z-index: 50;
 
-    margin: auto;
+            transform:
+                translate(
+                    calc(50vw - var(--card-center-x)),
+                    calc(50svh - var(--card-center-y))
+                )
+                scale(1.35)
+                rotate(0deg) !important;
 
-    padding:
-        45px
-        20px
-        40px;
-}
+            box-shadow:
+                0 25px 50px rgba(45, 35, 25, 0.25);
+        }
 
+        .polaroid.fading {
+            opacity: 0;
+            pointer-events: none;
+        }
 
-/* =========================
-   HOME
-========================= */
+        .photo-placeholder {
+            width: 100%;
+            aspect-ratio: 1 / 1;
 
-.home {
+            display: flex;
+            align-items: center;
+            justify-content: center;
 
-    min-height:
-        calc(100svh - 85px);
+            background:
+                linear-gradient(
+                    135deg,
+                    #eee8df,
+                    #e4ddd3
+                );
 
-    display: flex;
+            color: #9a9188;
 
-    flex-direction: column;
+            font-size: 38px;
+        }
 
-    justify-content: center;
+        .polaroid-caption {
+            text-align: center;
 
-    align-items: center;
+            margin-top: 10px;
 
-    text-align: center;
-}
+            font-size: 17px;
+            line-height: 1.05;
 
-.small-heart {
+            color: #302b27;
+        }
 
-    font-size: 20px;
+        /* Individual positions */
 
-    margin-bottom: 10px;
+        .p-letter {
+            top: 45px;
+            left: 7%;
 
-    opacity: 0.75;
-}
+            transform: rotate(-7deg);
 
-h1 {
+            --card-center-x: 82px;
+            --card-center-y: 160px;
+        }
 
-    margin: 0;
+        .p-memories {
+            top: 25px;
+            right: 5%;
 
-    font-size: 34px;
+            transform: rotate(6deg);
 
-    line-height: 1.1;
+            --card-center-x: calc(100vw - 82px);
+            --card-center-y: 145px;
+        }
 
-    font-weight: 800;
+        .p-story {
+            top: 225px;
+            left: 31%;
 
-    letter-spacing: -1px;
-}
+            transform: rotate(-3deg);
 
-.intro {
+            --card-center-x: 50%;
+            --card-center-y: 305px;
+        }
 
-    max-width: 420px;
+        .p-soundtrack {
+            top: 405px;
+            left: 5%;
 
-    margin:
-        17px
-        auto
-        30px;
+            transform: rotate(7deg);
 
-    color: #625e5a;
+            --card-center-x: 82px;
+            --card-center-y: 485px;
+        }
 
-    font-size: 15px;
+        .p-birthday {
+            top: 430px;
+            right: 5%;
 
-    line-height: 1.65;
-}
+            transform: rotate(-6deg);
 
+            --card-center-x: calc(100vw - 82px);
+            --card-center-y: 510px;
+        }
 
-/* =========================
-   MENU BUTTONS
-========================= */
+        .polaroid {
+            animation: gentleFloat 5s ease-in-out infinite;
+        }
 
-.menu {
+        .p-memories {
+            animation-delay: -1.3s;
+        }
 
-    width: 100%;
+        .p-story {
+            animation-delay: -2.1s;
+        }
 
-    display: grid;
+        .p-soundtrack {
+            animation-delay: -3.4s;
+        }
 
-    gap: 12px;
-}
+        .p-birthday {
+            animation-delay: -4.2s;
+        }
 
-.menu-button {
+        @keyframes gentleFloat {
+            0%,
+            100% {
+                margin-top: 0;
+            }
 
-    width: 100%;
+            50% {
+                margin-top: -7px;
+            }
+        }
 
-    border:
-        1px solid
-        #eee8df;
+        /* =========================================================
+           SECTION PAGES
+        ========================================================= */
 
-    background:
-        rgba(255,255,255,0.9);
+        .section {
+            display: none;
 
-    border-radius: 19px;
+            min-height: 100svh;
 
-    padding: 16px;
+            padding:
+                max(25px, env(safe-area-inset-top))
+                20px
+                max(40px, env(safe-area-inset-bottom));
 
-    display: flex;
+            animation: sectionIn 0.65s ease;
+        }
 
-    align-items: center;
+        .section.active {
+            display: block;
+        }
 
-    text-align: left;
+        @keyframes sectionIn {
+            from {
+                opacity: 0;
+                transform: translateY(18px);
+            }
 
-    gap: 14px;
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
 
-    box-shadow:
-        0 5px 18px
-        rgba(50,35,20,0.045);
+        .section-inner {
+            width: 100%;
+            max-width: 700px;
 
-    font-family: inherit;
+            margin: 0 auto;
+        }
 
-    cursor: pointer;
+        .back-button {
+            border: none;
+            background: transparent;
 
-    transition:
-        transform .18s ease,
-        box-shadow .18s ease;
-}
+            font-size: 17px;
+            color: #625951;
 
-.menu-button:active {
+            padding: 10px 0;
 
-    transform:
-        scale(0.965);
-}
+            cursor: pointer;
+        }
 
-.icon {
+        .section-title {
+            text-align: center;
 
-    width: 45px;
+            font-size: clamp(34px, 9vw, 55px);
 
-    height: 45px;
+            margin:
+                30px 0
+                35px;
 
-    flex-shrink: 0;
+            line-height: 1;
+        }
 
-    display: grid;
+        .paper-card {
+            background: rgba(255, 255, 255, 0.78);
 
-    place-items: center;
+            padding: 28px 23px;
 
-    border-radius: 14px;
+            box-shadow:
+                0 8px 25px rgba(45, 35, 25, 0.08);
 
-    background: #fff1ef;
+            border-radius: 3px;
+        }
 
-    font-size: 22px;
-}
+        /* =========================================================
+           LETTER
+        ========================================================= */
 
-.menu-text strong {
+        .letter {
+            font-size: 19px;
+            line-height: 1.75;
+        }
 
-    display: block;
+        .letter p {
+            margin-bottom: 20px;
+        }
 
-    margin-bottom: 3px;
+        .letter-placeholder {
+            color: #81776f;
+            font-style: italic;
+        }
 
-    font-size: 16px;
-}
+        /* =========================================================
+           OUR STORY / COUNTER
+        ========================================================= */
 
-.menu-text span {
+        .counter-intro {
+            text-align: center;
 
-    display: block;
+            font-size: 18px;
 
-    color: #77716c;
+            margin-bottom: 28px;
 
-    font-size: 12px;
+            color: #71675f;
+        }
 
-    line-height: 1.35;
-}
+        .counter-grid {
+            display: grid;
 
+            grid-template-columns:
+                repeat(2, 1fr);
 
-/* =========================
-   PAGES
-========================= */
+            gap: 13px;
+        }
 
-.page {
+        .counter-box {
+            background: #fff;
 
-    animation:
-        pageAppear
-        .35s
-        ease;
-}
+            padding: 22px 10px;
 
-@keyframes pageAppear {
+            text-align: center;
 
-    from {
+            box-shadow:
+                0 6px 18px rgba(45, 35, 25, 0.08);
+        }
 
-        opacity: 0;
+        .counter-number {
+            display: block;
 
-        transform:
-            translateY(10px);
-    }
+            font-size: 32px;
+            font-weight: 700;
 
-    to {
+            margin-bottom: 5px;
+        }
 
-        opacity: 1;
+        .counter-label {
+            font-size: 13px;
 
-        transform:
-            translateY(0);
-    }
+            text-transform: uppercase;
 
-}
+            letter-spacing: 1.5px;
 
-.back {
+            color: #8a817a;
+        }
 
-    border: none;
+        .story-message {
+            text-align: center;
 
-    background: none;
+            margin-top: 35px;
 
-    padding: 5px 0;
+            font-size: 20px;
 
-    margin-bottom: 24px;
+            line-height: 1.5;
+        }
 
-    color: #77716c;
+        /* =========================================================
+           MEMORIES
+        ========================================================= */
 
-    font-family: inherit;
+        .memory-viewer {
+            position: relative;
 
-    font-size: 14px;
+            width: 100%;
 
-    cursor: pointer;
-}
+            background: #fff;
 
-.page h2 {
+            padding: 12px;
 
-    margin: 0;
+            box-shadow:
+                0 10px 28px rgba(45, 35, 25, 0.12);
+        }
 
-    font-size: 30px;
+        .memory-image {
+            width: 100%;
+            aspect-ratio: 4 / 5;
 
-    letter-spacing: -0.7px;
-}
+            background:
+                linear-gradient(
+                    135deg,
+                    #eee8df,
+                    #e4ddd3
+                );
 
-.subtitle {
+            display: flex;
+            align-items: center;
+            justify-content: center;
 
-    color: #77716c;
+            color: #9a9188;
 
-    font-size: 14px;
+            font-size: 45px;
+        }
 
-    line-height: 1.55;
+        .memory-caption {
+            text-align: center;
 
-    margin:
-        8px
-        0
-        24px;
-}
+            padding: 15px 5px 5px;
 
+            font-size: 18px;
+        }
 
-/* =========================
-   CARDS
-========================= */
+        .memory-controls {
+            display: flex;
 
-.card {
+            justify-content: space-between;
+            align-items: center;
 
-    background:
-        rgba(255,255,255,0.91);
+            margin-top: 20px;
+        }
 
-    border:
-        1px solid
-        #eee8df;
+        .memory-arrow {
+            border: none;
 
-    border-radius: 20px;
+            background: #fff;
 
-    padding: 21px;
+            width: 48px;
+            height: 48px;
 
-    margin-bottom: 13px;
+            border-radius: 50%;
 
-    box-shadow:
-        0 5px 18px
-        rgba(50,35,20,0.04);
-}
+            font-size: 24px;
 
-.card h3 {
+            box-shadow:
+                0 5px 15px rgba(45, 35, 25, 0.10);
 
-    margin:
-        0
-        0
-        8px;
+            cursor: pointer;
+        }
 
-    font-size: 17px;
-}
+        .memory-counter {
+            color: #81776f;
 
-.card p {
+            font-size: 15px;
+        }
 
-    margin: 0;
+        /* =========================================================
+           SOUNDTRACK
+        ========================================================= */
 
-    color: #5f5a56;
+        .soundtrack-intro {
+            text-align: center;
 
-    font-size: 14px;
+            font-size: 18px;
 
-    line-height: 1.65;
-}
+            color: #756b64;
 
+            margin-bottom: 30px;
+        }
 
-/* =========================
-   LETTER
-========================= */
+        .songs {
+            position: relative;
 
-.letter {
+            min-height: 500px;
+        }
 
-    line-height: 1.75;
-}
+        .song-card {
+            position: absolute;
 
+            width: 170px;
 
-/* =========================
-   OPEN WHEN
-========================= */
+            background: rgba(255, 255, 255, 0.9);
 
-.open-button {
+            padding: 10px;
 
-    width: 100%;
+            box-shadow:
+                0 8px 22px rgba(45, 35, 25, 0.13);
 
-    padding: 17px;
+            text-decoration: none;
 
-    margin-bottom: 10px;
+            color: inherit;
 
-    border:
-        1px solid
-        #eee8df;
+            transition:
+                transform 0.3s ease,
+                box-shadow 0.3s ease;
+        }
 
-    background:
-        rgba(255,255,255,0.9);
+        .song-card:hover {
+            transform: translateY(-6px) rotate(0deg) !important;
 
-    border-radius: 17px;
+            box-shadow:
+                0 15px 30px rgba(45, 35, 25, 0.18);
+        }
 
-    text-align: left;
+        .song-cover {
+            width: 100%;
 
-    font-family: inherit;
+            aspect-ratio: 1 / 1;
 
-    font-size: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
 
-    cursor: pointer;
-}
+            background:
+                linear-gradient(
+                    135deg,
+                    #e8e1d8,
+                    #dcd3c8
+                );
 
-.open-message {
+            color: #9a9188;
 
-    display: none;
+            font-size: 34px;
+        }
 
-    margin:
-        -3px
-        0
-        12px;
+        .song-name {
+            margin-top: 11px;
 
-    padding: 18px;
+            font-size: 16px;
 
-    background: #fff8f6;
+            text-align: center;
+        }
 
-    border-radius: 16px;
+        .song-artist {
+            margin-top: 4px;
 
-    color: #5f5a56;
+            font-size: 13px;
 
-    font-size: 14px;
+            color: #8a817a;
 
-    line-height: 1.65;
-}
+            text-align: center;
+        }
 
+        .song-1 {
+            top: 10px;
+            left: 4%;
+            transform: rotate(-6deg);
+        }
 
-/* =========================
-   REASONS
-========================= */
+        .song-2 {
+            top: 30px;
+            right: 3%;
+            transform: rotate(7deg);
+        }
 
-.reason {
+        .song-3 {
+            top: 220px;
+            left: 28%;
+            transform: rotate(-2deg);
+        }
 
-    display: flex;
+        .song-4 {
+            top: 380px;
+            left: 5%;
+            transform: rotate(5deg);
+        }
 
-    gap: 12px;
+        .song-5 {
+            top: 365px;
+            right: 4%;
+            transform: rotate(-7deg);
+        }
 
-    align-items: flex-start;
-}
+        /* =========================================================
+           BIRTHDAY PRESENT
+        ========================================================= */
 
-.reason-number {
+        .birthday-card {
+            text-align: center;
 
-    width: 30px;
+            padding: 35px 22px;
+        }
 
-    height: 30px;
+        .birthday-card p {
+            font-size: 19px;
 
-    flex-shrink: 0;
+            line-height: 1.65;
 
-    display: grid;
+            margin-bottom: 22px;
+        }
 
-    place-items: center;
+        .present-button {
+            border: none;
 
-    border-radius: 50%;
+            background: #fff;
 
-    background: #fff1ef;
+            padding: 15px 24px;
 
-    font-size: 13px;
+            font-size: 17px;
 
-    font-weight: 700;
-}
+            cursor: pointer;
 
+            box-shadow:
+                0 7px 20px rgba(45, 35, 25, 0.12);
+        }
 
-/* =========================
-   MEMORIES
-========================= */
+        .empty-present {
+            display: none;
 
-.memory {
+            margin-top: 30px;
+        }
 
-    display: flex;
+        .empty-present.visible {
+            display: block;
 
-    gap: 14px;
+            animation: sectionIn 0.6s ease;
+        }
 
-    align-items: flex-start;
-}
+        .empty-title {
+            font-size: 30px;
 
-.memory-icon {
+            margin-bottom: 20px;
+        }
 
-    font-size: 26px;
+        .riddle {
+            margin-top: 25px;
 
-    line-height: 1;
-}
+            padding: 25px 20px;
 
+            background: #fff;
 
-/* =========================
-   COUNTER
-========================= */
+            box-shadow:
+                0 7px 20px rgba(45, 35, 25, 0.09);
 
-.big-heart {
+            font-size: 18px;
 
-    text-align: center;
+            line-height: 1.8;
 
-    font-size: 65px;
+            font-style: italic;
+        }
 
-    margin:
-        5px
-        0
-        20px;
-}
+        .riddle strong {
+            display: block;
 
-.counter {
+            margin-bottom: 12px;
 
-    text-align: center;
+            font-style: normal;
+        }
 
-    font-size: 20px;
+        /* =========================================================
+           SMALL PHONES
+        ========================================================= */
 
-    font-weight: 700;
-}
+        @media (max-width: 370px) {
 
-.counter-small {
+            .polaroid {
+                width: 135px;
+            }
 
-    margin-top: 8px;
+            .p-letter {
+                left: 3%;
+            }
 
-    text-align: center;
+            .p-memories {
+                right: 2%;
+            }
 
-    color: #77716c;
+            .p-story {
+                left: 29%;
+            }
 
-    font-size: 13px;
-}
+            .p-soundtrack {
+                left: 2%;
+            }
 
+            .p-birthday {
+                right: 2%;
+            }
 
-/* =========================
-   FUTURE
-========================= */
-
-.future {
-
-    display: flex;
-
-    align-items: center;
-
-    gap: 12px;
-}
-
-.future-icon {
-
-    font-size: 24px;
-}
-
-
-/* =========================
-   BIRTHDAY
-========================= */
-
-.birthday {
-
-    text-align: center;
-}
-
-.birthday h2 {
-
-    margin-bottom: 10px;
-}
-
-.birthday-heart {
-
-    font-size: 70px;
-
-    margin:
-        15px
-        0;
-}
-
-.birthday-message {
-
-    font-size: 15px;
-
-    color: #5f5a56;
-
-    line-height: 1.7;
-}
-
-
-/* =========================
-   FOOTER
-========================= */
-
-.footer {
-
-    margin-top: 30px;
-
-    text-align: center;
-
-    color: #aaa29b;
-
-    font-size: 12px;
-}
-
-
-/* =========================
-   DESKTOP
-========================= */
-
-@media (min-width: 700px) {
-
-    .menu-button:hover {
-
-        transform:
-            translateY(-2px);
-
-        box-shadow:
-            0 8px 24px
-            rgba(50,35,20,0.08);
-    }
-
-}
-
-</style>
+            .scrapbook {
+                height: 650px;
+            }
+        }
+    </style>
 </head>
-
 
 <body>
 
+    <!-- =========================================================
+         BACKGROUND FLOATING DECORATIONS
+    ========================================================== -->
 
-<!-- =========================
-     FLOATING HEARTS / BEARS
-========================= -->
-
-<div id="floating-background"></div>
-
-
-<!-- =========================
-     APP
-========================= -->
-
-<main class="app">
+    <div id="floatingDecorations"></div>
 
 
-<!-- =========================
-     HOME SCREEN
-========================= -->
+    <!-- =========================================================
+         INTRO
+    ========================================================== -->
 
-<section id="home" class="home page">
+    <div id="intro">
 
-    <div class="small-heart">
-        ♡
+        <div class="intro-title">
+            <div>A Virtual Book</div>
+            <div>About Us</div>
+        </div>
+
     </div>
 
-    <h1>
-        For My Beautiful Girlfriend
-    </h1>
 
-    <p class="intro">
+    <!-- =========================================================
+         MAIN APP
+    ========================================================== -->
 
-        I made this little place
-        just for you.
-
-        Every part of it is a tiny
-        reminder of how much you
-        mean to me.
-
-        ♡
-
-    </p>
+    <main id="app">
 
 
-    <div class="menu">
+        <!-- =====================================================
+             HOME / SCRAPBOOK
+        ====================================================== -->
+
+        <section id="home">
+
+            <h1 class="book-title">
+                <span>A Virtual Book</span>
+                <span>About Us</span>
+            </h1>
 
 
-        <button
-            class="menu-button"
-            onclick="openPage('letter')">
+            <div class="scrapbook">
 
-            <div class="icon">
-                💌
+
+                <!-- LETTER -->
+
+                <div
+                    class="polaroid p-letter"
+                    onclick="openFromPolaroid(this, 'letter')"
+                >
+
+                    <div class="photo-placeholder">
+                        ♡
+                    </div>
+
+                    <div class="polaroid-caption">
+                        A Letter<br>
+                        For You
+                    </div>
+
+                </div>
+
+
+                <!-- MEMORIES -->
+
+                <div
+                    class="polaroid p-memories"
+                    onclick="openFromPolaroid(this, 'memories')"
+                >
+
+                    <div class="photo-placeholder">
+                        📷
+                    </div>
+
+                    <div class="polaroid-caption">
+                        Our<br>
+                        Memories
+                    </div>
+
+                </div>
+
+
+                <!-- STORY -->
+
+                <div
+                    class="polaroid p-story"
+                    onclick="openFromPolaroid(this, 'story')"
+                >
+
+                    <div class="photo-placeholder">
+                        ♡
+                    </div>
+
+                    <div class="polaroid-caption">
+                        Our<br>
+                        Story
+                    </div>
+
+                </div>
+
+
+                <!-- SOUNDTRACK -->
+
+                <div
+                    class="polaroid p-soundtrack"
+                    onclick="openFromPolaroid(this, 'soundtrack')"
+                >
+
+                    <div class="photo-placeholder">
+                        ♪
+                    </div>
+
+                    <div class="polaroid-caption">
+                        Our<br>
+                        Soundtrack
+                    </div>
+
+                </div>
+
+
+                <!-- BIRTHDAY -->
+
+                <div
+                    class="polaroid p-birthday"
+                    onclick="openFromPolaroid(this, 'birthday')"
+                >
+
+                    <div class="photo-placeholder">
+                        🎁
+                    </div>
+
+                    <div class="polaroid-caption">
+                        Birthday<br>
+                        Present
+                    </div>
+
+                </div>
+
             </div>
 
-            <div class="menu-text">
+        </section>
 
-                <strong>
+
+        <!-- =====================================================
+             LETTER SECTION
+        ====================================================== -->
+
+        <section id="letter" class="section">
+
+            <div class="section-inner">
+
+                <button
+                    class="back-button"
+                    onclick="goHome()"
+                >
+                    ← Back to our book
+                </button>
+
+                <h2 class="section-title">
                     A Letter For You
-                </strong>
+                </h2>
 
-                <span>
-                    Something I want you to know
-                </span>
+                <div class="paper-card letter">
 
-            </div>
+                    <!-- REPLACE THIS LATER WITH YOUR REAL LETTER -->
 
-        </button>
+                    <p class="letter-placeholder">
+                        Your letter will go here.
+                    </p>
 
+                    <p class="letter-placeholder">
+                        This is where you'll write everything you want
+                        her to read.
+                    </p>
 
-        <button
-            class="menu-button"
-            onclick="openPage('openwhen')">
+                    <p class="letter-placeholder">
+                        You can send me the letter later and we'll
+                        put the real version here.
+                    </p>
 
-            <div class="icon">
-                🫂
-            </div>
-
-            <div class="menu-text">
-
-                <strong>
-                    Open When...
-                </strong>
-
-                <span>
-                    Little messages for different moments
-                </span>
+                </div>
 
             </div>
 
-        </button>
+        </section>
 
 
-        <button
-            class="menu-button"
-            onclick="openPage('reasons')">
+        <!-- =====================================================
+             OUR STORY SECTION
+        ====================================================== -->
 
-            <div class="icon">
-                🤍
-            </div>
+        <section id="story" class="section">
 
-            <div class="menu-text">
+            <div class="section-inner">
 
-                <strong>
-                    Things I Love About You
-                </strong>
+                <button
+                    class="back-button"
+                    onclick="goHome()"
+                >
+                    ← Back to our book
+                </button>
 
-                <span>
-                    A few of the countless reasons
-                </span>
-
-            </div>
-
-        </button>
-
-
-        <button
-            class="menu-button"
-            onclick="openPage('memories')">
-
-            <div class="icon">
-                📸
-            </div>
-
-            <div class="menu-text">
-
-                <strong>
-                    Our Memories
-                </strong>
-
-                <span>
-                    Little moments I never want to forget
-                </span>
-
-            </div>
-
-        </button>
-
-
-        <button
-            class="menu-button"
-            onclick="openPage('story')">
-
-            <div class="icon">
-                🫶
-            </div>
-
-            <div class="menu-text">
-
-                <strong>
+                <h2 class="section-title">
                     Our Story
-                </strong>
+                </h2>
 
-                <span>
-                    Since the day we became us
-                </span>
+                <div class="paper-card">
+
+                    <p class="counter-intro">
+                        Every second with you counts.
+                    </p>
+
+                    <div class="counter-grid">
+
+                        <div class="counter-box">
+                            <span
+                                class="counter-number"
+                                id="years"
+                            >
+                                0
+                            </span>
+
+                            <span class="counter-label">
+                                Years
+                            </span>
+                        </div>
+
+
+                        <div class="counter-box">
+                            <span
+                                class="counter-number"
+                                id="months"
+                            >
+                                0
+                            </span>
+
+                            <span class="counter-label">
+                                Months
+                            </span>
+                        </div>
+
+
+                        <div class="counter-box">
+                            <span
+                                class="counter-number"
+                                id="days"
+                            >
+                                0
+                            </span>
+
+                            <span class="counter-label">
+                                Days
+                            </span>
+                        </div>
+
+
+                        <div class="counter-box">
+                            <span
+                                class="counter-number"
+                                id="hours"
+                            >
+                                0
+                            </span>
+
+                            <span class="counter-label">
+                                Hours
+                            </span>
+                        </div>
+
+
+                        <div class="counter-box">
+                            <span
+                                class="counter-number"
+                                id="minutes"
+                            >
+                                0
+                            </span>
+
+                            <span class="counter-label">
+                                Minutes
+                            </span>
+                        </div>
+
+
+                        <div class="counter-box">
+                            <span
+                                class="counter-number"
+                                id="seconds"
+                            >
+                                0
+                            </span>
+
+                            <span class="counter-label">
+                                Seconds
+                            </span>
+                        </div>
+
+                    </div>
+
+
+                    <div class="story-message">
+
+                        ♡
+
+                        <br>
+
+                        And every second is another
+                        second of us.
+
+                    </div>
+
+                </div>
 
             </div>
 
-        </button>
+        </section>
 
 
-        <button
-            class="menu-button"
-            onclick="openPage('future')">
+        <!-- =====================================================
+             MEMORIES SECTION
+        ====================================================== -->
 
-            <div class="icon">
-                🔮
+        <section id="memories" class="section">
+
+            <div class="section-inner">
+
+                <button
+                    class="back-button"
+                    onclick="goHome()"
+                >
+                    ← Back to our book
+                </button>
+
+                <h2 class="section-title">
+                    Our Memories
+                </h2>
+
+                <div class="memory-viewer">
+
+                    <div
+                        class="memory-image"
+                        id="memoryImage"
+                    >
+                        📷
+                    </div>
+
+                    <div
+                        class="memory-caption"
+                        id="memoryCaption"
+                    >
+                        Our first memory
+                    </div>
+
+                </div>
+
+
+                <div class="memory-controls">
+
+                    <button
+                        class="memory-arrow"
+                        onclick="previousMemory()"
+                    >
+                        ←
+                    </button>
+
+                    <div
+                        class="memory-counter"
+                        id="memoryCounter"
+                    >
+                        1 / 5
+                    </div>
+
+                    <button
+                        class="memory-arrow"
+                        onclick="nextMemory()"
+                    >
+                        →
+                    </button>
+
+                </div>
+
             </div>
 
-            <div class="menu-text">
+        </section>
 
-                <strong>
-                    Future Us
-                </strong>
 
-                <span>
-                    Things I want to experience with you
-                </span>
+        <!-- =====================================================
+             SOUNDTRACK SECTION
+        ====================================================== -->
+
+        <section id="soundtrack" class="section">
+
+            <div class="section-inner">
+
+                <button
+                    class="back-button"
+                    onclick="goHome()"
+                >
+                    ← Back to our book
+                </button>
+
+                <h2 class="section-title">
+                    Our Soundtrack
+                </h2>
+
+                <p class="soundtrack-intro">
+                    Songs that remind me of us ♡
+                </p>
+
+
+                <div class="songs">
+
+
+                    <!-- SONG 1 -->
+
+                    <a
+                        class="song-card song-1"
+                        href="#"
+                        target="_blank"
+                    >
+
+                        <div class="song-cover">
+                            ♪
+                        </div>
+
+                        <div class="song-name">
+                            Song Name
+                        </div>
+
+                        <div class="song-artist">
+                            Artist
+                        </div>
+
+                    </a>
+
+
+                    <!-- SONG 2 -->
+
+                    <a
+                        class="song-card song-2"
+                        href="#"
+                        target="_blank"
+                    >
+
+                        <div class="song-cover">
+                            ♪
+                        </div>
+
+                        <div class="song-name">
+                            Song Name
+                        </div>
+
+                        <div class="song-artist">
+                            Artist
+                        </div>
+
+                    </a>
+
+
+                    <!-- SONG 3 -->
+
+                    <a
+                        class="song-card song-3"
+                        href="#"
+                        target="_blank"
+                    >
+
+                        <div class="song-cover">
+                            ♪
+                        </div>
+
+                        <div class="song-name">
+                            Song Name
+                        </div>
+
+                        <div class="song-artist">
+                            Artist
+                        </div>
+
+                    </a>
+
+
+                    <!-- WHITE KEYS -->
+
+                    <a
+                        class="song-card song-4"
+                        href="#"
+                        target="_blank"
+                    >
+
+                        <div class="song-cover">
+                            ♫
+                        </div>
+
+                        <div class="song-name">
+                            White Keys
+                        </div>
+
+                        <div class="song-artist">
+                            Special Song
+                        </div>
+
+                    </a>
+
+
+                    <!-- SONG 5 -->
+
+                    <a
+                        class="song-card song-5"
+                        href="#"
+                        target="_blank"
+                    >
+
+                        <div class="song-cover">
+                            ♪
+                        </div>
+
+                        <div class="song-name">
+                            Song Name
+                        </div>
+
+                        <div class="song-artist">
+                            Artist
+                        </div>
+
+                    </a>
+
+                </div>
 
             </div>
 
-        </button>
+        </section>
 
 
-        <button
-            class="menu-button"
-            onclick="openPage('birthday')">
+        <!-- =====================================================
+             BIRTHDAY PRESENT
+        ====================================================== -->
 
-            <div class="icon">
-                🎁
+        <section id="birthday" class="section">
+
+            <div class="section-inner">
+
+                <button
+                    class="back-button"
+                    onclick="goHome()"
+                >
+                    ← Back to our book
+                </button>
+
+                <h2 class="section-title">
+                    Birthday Present
+                </h2>
+
+
+                <div class="paper-card birthday-card">
+
+                    <p>
+                        Happy Birthday, my love ♡
+                    </p>
+
+                    <p>
+                        I wanted to give you something special...
+                    </p>
+
+                    <p>
+                        Something that was made just for you.
+                    </p>
+
+                    <button
+                        class="present-button"
+                        onclick="openPresent()"
+                    >
+                        Open your present
+                    </button>
+
+
+                    <div
+                        class="empty-present"
+                        id="emptyPresent"
+                    >
+
+                        <div class="empty-title">
+                            ...Oops.
+                        </div>
+
+                        <p>
+                            It's empty.
+                        </p>
+
+                        <p>
+                            Maybe your present isn't here after all... ♡
+                        </p>
+
+
+                        <div class="riddle">
+
+                            <strong>
+                                Maybe this will help...
+                            </strong>
+
+                            I'm not the door,<br>
+                            yet I can help you enter.<br>
+                            <br>
+
+                            I'm not the moon,<br>
+                            but I can be pale as snow.<br>
+                            <br>
+
+                            I'm not a secret,<br>
+                            but I unlock one.<br>
+                            <br>
+
+                            When you've found me,<br>
+                            you'll know where to go next.<br>
+                            <br>
+
+                            What am I?
+
+                        </div>
+
+                    </div>
+
+                </div>
+
             </div>
 
-            <div class="menu-text">
+        </section>
 
-                <strong>
-                    Your Birthday Surprise
-                </strong>
+    </main>
 
-                <span>
-                    You should probably open this one
-                </span>
 
-            </div>
+    <script>
 
-        </button>
+        /* =========================================================
+           INTRO ANIMATION
+        ========================================================= */
 
+        window.addEventListener("load", function () {
 
-    </div>
+            setTimeout(function () {
 
+                document
+                    .getElementById("app")
+                    .classList
+                    .add("visible");
 
-    <div class="footer">
+                document
+                    .getElementById("intro")
+                    .classList
+                    .add("hidden");
 
-        made with love ♡
+            }, 1800);
 
-    </div>
+        });
 
-</section>
 
+        /* =========================================================
+           BACKGROUND FLOATING DECORATIONS
+        ========================================================= */
 
+        const decorationContainer =
+            document.getElementById("floatingDecorations");
 
-<!-- =========================
-     LETTER
-========================= -->
+        const decorations = [
+            "♡",
+            "♡",
+            "🤍",
+            "♥",
+            "♡",
+            "🧸",
+            "♡",
+            "🤍",
+            "♡",
+            "♥",
+            "🧸",
+            "♡"
+        ];
 
-<section
-    id="letter"
-    class="page"
-    hidden>
+        decorations.forEach(function (symbol) {
 
-    <button
-        class="back"
-        onclick="goHome()">
+            const element =
+                document.createElement("div");
 
-        ← Back
+            element.className =
+                "floating-decoration";
 
-    </button>
+            element.textContent =
+                symbol;
 
+            element.style.left =
+                Math.random() * 100 + "%";
 
-    <h2>
-        A Letter For You 💌
-    </h2>
+            element.style.animationDuration =
+                (20 + Math.random() * 15) + "s";
 
-    <p class="subtitle">
-        A little piece of my heart.
-    </p>
+            element.style.animationDelay =
+                (-Math.random() * 25) + "s";
 
+            element.style.fontSize =
+                (15 + Math.random() * 18) + "px";
 
-    <div class="card letter">
+            decorationContainer.appendChild(element);
 
-        My beautiful girl,
+        });
 
-        <br><br>
 
-        I don't think I could ever fit everything
-        I feel for you into one little website,
-        but I wanted to try anyway.
+        /* =========================================================
+           NAVIGATION
+        ========================================================= */
 
-        <br><br>
+        function openFromPolaroid(card, sectionId) {
 
-        You have become such a special part
-        of my life, and even the most ordinary
-        days feel different when I get to share
-        them with you.
+            const cards =
+                document.querySelectorAll(".polaroid");
 
-        <br><br>
+            cards.forEach(function (otherCard) {
 
-        Thank you for the laughs, the conversations,
-        the random moments, the memories,
-        and simply for being you.
+                if (otherCard !== card) {
+                    otherCard.classList.add("fading");
+                }
 
-        <br><br>
+            });
 
-        I love you.
+            card.classList.add("opening");
 
-        <br><br>
+            setTimeout(function () {
 
-        And I hope you always remember that. ♡
+                openSection(sectionId);
 
-    </div>
+                cards.forEach(function (otherCard) {
+                    otherCard.classList.remove("fading");
+                    otherCard.classList.remove("opening");
+                });
 
-</section>
+            }, 450);
 
+        }
 
 
-<!-- =========================
-     OPEN WHEN
-========================= -->
+        function openSection(sectionId) {
 
-<section
-    id="openwhen"
-    class="page"
-    hidden>
+            document
+                .getElementById("home")
+                .style.display = "none";
 
-    <button
-        class="back"
-        onclick="goHome()">
+            document
+                .querySelectorAll(".section")
+                .forEach(function (section) {
 
-        ← Back
+                    section.classList.remove("active");
 
-    </button>
+                });
 
+            document
+                .getElementById(sectionId)
+                .classList.add("active");
 
-    <h2>
-        Open When... 🫂
-    </h2>
+            window.scrollTo({
+                top: 0,
+                behavior: "instant"
+            });
 
-    <p class="subtitle">
-        Pick one. I wrote these for you.
-    </p>
+        }
 
 
-    <button
-        class="open-button"
-        onclick="toggleMessage('sad')">
+        function goHome() {
 
-        💗 Open when you're sad
+            document
+                .querySelectorAll(".section")
+                .forEach(function (section) {
 
-    </button>
+                    section.classList.remove("active");
 
-    <div
-        id="sad"
-        class="open-message">
+                });
 
-        Come here.
+            document
+                .getElementById("home")
+                .style.display = "block";
 
-        <br><br>
+            window.scrollTo({
+                top: 0,
+                behavior: "instant"
+            });
 
-        Whatever happened, you don't have
-        to deal with everything alone.
+        }
 
-        I wish I could give you a huge hug
-        right now.
 
-        <br><br>
+        /* =========================================================
+           RELATIONSHIP COUNTER
+        ========================================================= */
 
-        Remember that I love you,
-        and tomorrow can always be better. ♡
+        /*
+            Relationship start:
+            June 7, 2026
 
-    </div>
+            Change this date later if needed.
+        */
 
+        const relationshipStart =
+            new Date("2026-06-07T00:00:00");
 
 
-    <button
-        class="open-button"
-        onclick="toggleMessage('miss')">
+        function updateCounter() {
 
-        🥺 Open when you miss me
+            const now =
+                new Date();
 
-    </button>
+            let years =
+                now.getFullYear() -
+                relationshipStart.getFullYear();
 
-    <div
-        id="miss"
-        class="open-message">
+            let months =
+                now.getMonth() -
+                relationshipStart.getMonth();
 
-        I probably miss you too.
+            if (
+                months < 0 ||
+                (
+                    months === 0 &&
+                    now.getDate() < relationshipStart.getDate()
+                )
+            ) {
 
-        <br><br>
+                years--;
+                months += 12;
 
-        Close your eyes for a second
-        and imagine me giving you
-        the biggest hug possible.
+            }
 
-        <br><br>
 
-        Now you owe me one when I see you. 🤍
+            /*
+                Find the exact point after the
+                whole years and months.
+            */
 
-    </div>
+            const afterYears =
+                new Date(relationshipStart);
 
+            afterYears.setFullYear(
+                relationshipStart.getFullYear() + years
+            );
 
 
-    <button
-        class="open-button"
-        onclick="toggleMessage('sleep')">
+            let remainingMonths =
+                now.getMonth() -
+                afterYears.getMonth();
 
-        🌙 Open when you can't sleep
+            if (remainingMonths < 0) {
+                remainingMonths += 12;
+            }
 
-    </button>
 
-    <div
-        id="sleep"
-        class="open-message">
+            const afterMonths =
+                new Date(afterYears);
 
-        Put your phone down after reading this.
+            afterMonths.setMonth(
+                afterYears.getMonth() + remainingMonths
+            );
 
-        <br><br>
 
-        Get comfortable, close your eyes,
-        and let your brain finally rest.
+            if (afterMonths > now) {
 
-        <br><br>
+                remainingMonths--;
 
-        Goodnight, beautiful. 🧸
+                afterMonths.setMonth(
+                    afterMonths.getMonth() - 1
+                );
 
-    </div>
+            }
 
 
+            const difference =
+                now.getTime() -
+                afterMonths.getTime();
 
-    <button
-        class="open-button"
-        onclick="toggleMessage('smile')">
 
-        😂 Open when you need to smile
+            const secondsTotal =
+                Math.floor(difference / 1000);
 
-    </button>
+            const days =
+                Math.floor(
+                    secondsTotal / 86400
+                );
 
-    <div
-        id="smile"
-        class="open-message">
+            const hours =
+                Math.floor(
+                    (secondsTotal % 86400) / 3600
+                );
 
-        Congratulations.
+            const minutes =
+                Math.floor(
+                    (secondsTotal % 3600) / 60
+                );
 
-        You have officially been reminded
-        that your boyfriend is obsessed with you.
+            const seconds =
+                secondsTotal % 60;
 
-        <br><br>
 
-        You're welcome. 😂❤️
+            document.getElementById("years").textContent =
+                years;
 
-    </div>
+            document.getElementById("months").textContent =
+                remainingMonths;
 
-</section>
+            document.getElementById("days").textContent =
+                days;
 
+            document.getElementById("hours").textContent =
+                hours;
 
+            document.getElementById("minutes").textContent =
+                minutes;
 
-<!-- =========================
-     REASONS
-========================= -->
+            document.getElementById("seconds").textContent =
+                seconds;
 
-<section
-    id="reasons"
-    class="page"
-    hidden>
+        }
 
-    <button
-        class="back"
-        onclick="goHome()">
 
-        ← Back
+        updateCounter();
 
-    </button>
-
-
-    <h2>
-        Things I Love About You 🤍
-    </h2>
-
-    <p class="subtitle">
-        And this list could honestly go forever.
-    </p>
-
-
-    <div class="card reason">
-
-        <div class="reason-number">
-            1
-        </div>
-
-        <p>
-            Your smile. It can completely
-            change the mood of a moment.
-        </p>
-
-    </div>
-
-
-    <div class="card reason">
-
-        <div class="reason-number">
-            2
-        </div>
-
-        <p>
-            The way you care about people
-            and the little things you notice.
-        </p>
-
-    </div>
-
-
-    <div class="card reason">
-
-        <div class="reason-number">
-            3
-        </div>
-
-        <p>
-            Our conversations. Even when
-            we're talking about absolutely nothing.
-        </p>
-
-    </div>
-
-
-    <div class="card reason">
-
-        <div class="reason-number">
-            4
-        </div>
-
-        <p>
-            Your little quirks that make you
-            completely and uniquely you.
-        </p>
-
-    </div>
-
-
-    <div class="card reason">
-
-        <div class="reason-number">
-            5
-        </div>
-
-        <p>
-            Simply you. I don't need a complicated
-            explanation for why I love you.
-        </p>
-
-    </div>
-
-</section>
-
-
-
-<!-- =========================
-     MEMORIES
-========================= -->
-
-<section
-    id="memories"
-    class="page"
-    hidden>
-
-    <button
-        class="back"
-        onclick="goHome()">
-
-        ← Back
-
-    </button>
-
-
-    <h2>
-        Our Memories 📸
-    </h2>
-
-    <p class="subtitle">
-        Our story, one little memory at a time.
-    </p>
-
-
-    <div class="card memory">
-
-        <div class="memory-icon">
-            🌷
-        </div>
-
-        <div>
-
-            <h3>
-                The beginning
-            </h3>
-
-            <p>
-                June 7, 2026 — the day
-                our story officially began.
-            </p>
-
-        </div>
-
-    </div>
-
-
-    <div class="card memory">
-
-        <div class="memory-icon">
-            🥰
-        </div>
-
-        <div>
-
-            <h3>
-                More memories coming
-            </h3>
-
-            <p>
-                This is where we'll put our
-                favorite moments together.
-            </p>
-
-        </div>
-
-    </div>
-
-
-    <div class="card">
-
-        <h3>
-            📷 Our photos
-        </h3>
-
-        <p>
-            We'll turn this into a beautiful
-            little photo gallery once you
-            give me the pictures.
-        </p>
-
-    </div>
-
-</section>
-
-
-
-<!-- =========================
-     STORY
-========================= -->
-
-<section
-    id="story"
-    class="page"
-    hidden>
-
-    <button
-        class="back"
-        onclick="goHome()">
-
-        ← Back
-
-    </button>
-
-
-    <h2>
-        Our Story 🫶
-    </h2>
-
-    <p class="subtitle">
-        And we're only getting started.
-    </p>
-
-
-    <div class="card">
-
-        <div class="big-heart">
-            ♡
-        </div>
-
-        <div
-            id="dayCounter"
-            class="counter">
-
-            Together for 0 days
-
-        </div>
-
-        <div class="counter-small">
-
-            Since June 7, 2026
-
-        </div>
-
-    </div>
-
-
-    <div class="card">
-
-        <h3>
-            And counting...
-        </h3>
-
-        <p>
-            More days. More laughs.
-            More adventures. More memories.
-            More us.
-        </p>
-
-    </div>
-
-</section>
-
-
-
-<!-- =========================
-     FUTURE
-========================= -->
-
-<section
-    id="future"
-    class="page"
-    hidden>
-
-    <button
-        class="back"
-        onclick="goHome()">
-
-        ← Back
-
-    </button>
-
-
-    <h2>
-        Future Us 🔮
-    </h2>
-
-    <p class="subtitle">
-        Things I want to experience with you.
-    </p>
-
-
-    <div class="card future">
-
-        <div class="future-icon">
-            🌎
-        </div>
-
-        <p>
-            Go somewhere we've never been.
-        </p>
-
-    </div>
-
-
-    <div class="card future">
-
-        <div class="future-icon">
-            🎬
-        </div>
-
-        <p>
-            Have a ridiculous movie night.
-        </p>
-
-    </div>
-
-
-    <div class="card future">
-
-        <div class="future-icon">
-            📸
-        </div>
-
-        <p>
-            Take way too many pictures together.
-        </p>
-
-    </div>
-
-
-    <div class="card future">
-
-        <div class="future-icon">
-            🌙
-        </div>
-
-        <p>
-            Have one of those random
-            late-night adventures.
-        </p>
-
-    </div>
-
-
-    <div class="card future">
-
-        <div class="future-icon">
-            ❤️
-        </div>
-
-        <p>
-            Keep making memories
-            for a very, very long time.
-        </p>
-
-    </div>
-
-</section>
-
-
-
-<!-- =========================
-     BIRTHDAY
-========================= -->
-
-<section
-    id="birthday"
-    class="page birthday"
-    hidden>
-
-    <button
-        class="back"
-        onclick="goHome()">
-
-        ← Back
-
-    </button>
-
-
-    <h2>
-        Happy Birthday, Beautiful 🎂
-    </h2>
-
-
-    <div class="birthday-heart">
-        🎁
-    </div>
-
-
-    <div class="card">
-
-        <p class="birthday-message">
-
-            Happy birthday to my beautiful girl.
-
-            <br><br>
-
-            I hope this year brings you
-            everything you deserve.
-
-            Happiness.
-
-            Peace.
-
-            Adventures.
-
-            And a ridiculous amount
-            of reasons to smile.
-
-            <br><br>
-
-            I'm incredibly happy that I get
-            to be beside you through it.
-
-            <br><br>
-
-            I love you. 🤍
-
-        </p>
-
-    </div>
-
-
-    <div class="card">
-
-        <div class="birthday-heart">
-            🧸🤍🧸
-        </div>
-
-        <p class="birthday-message">
-
-            Your official birthday
-            teddy-bear delivery has arrived.
-
-            <br><br>
-
-            Unfortunately, it only contains
-            one virtual hug.
-
-            <br>
-
-            The real one has to wait
-            until I see you. 🫂
-
-        </p>
-
-    </div>
-
-</section>
-
-
-</main>
-
-
-
-<script>
-
-/* =========================
-   PAGE NAVIGATION
-========================= */
-
-const pages =
-    document.querySelectorAll(".page");
-
-
-function openPage(id) {
-
-    pages.forEach(page => {
-
-        page.hidden = true;
-
-    });
-
-
-    document
-        .getElementById(id)
-        .hidden = false;
-
-
-    window.scrollTo(0, 0);
-
-
-    updateCounter();
-
-}
-
-
-function goHome() {
-
-    openPage("home");
-
-}
-
-
-/* =========================
-   OPEN WHEN
-========================= */
-
-function toggleMessage(id) {
-
-    const message =
-        document.getElementById(id);
-
-
-    if (
-        message.style.display === "block"
-    ) {
-
-        message.style.display = "none";
-
-    } else {
-
-        message.style.display = "block";
-
-    }
-
-}
-
-
-/* =========================
-   RELATIONSHIP COUNTER
-========================= */
-
-function updateCounter() {
-
-    const start =
-        new Date(2026, 5, 7);
-
-    const today =
-        new Date();
-
-
-    start.setHours(0, 0, 0, 0);
-
-    today.setHours(0, 0, 0, 0);
-
-
-    const difference =
-        today - start;
-
-
-    const days =
-        Math.max(
-            0,
-            Math.floor(
-                difference /
-                86400000
-            )
+        setInterval(
+            updateCounter,
+            1000
         );
 
 
-    const counter =
-        document.getElementById(
-            "dayCounter"
-        );
+        /* =========================================================
+           MEMORIES
+        ========================================================= */
 
+        const memories = [
 
-    if (counter) {
+            {
+                image: "📷",
+                caption: "Our first memory"
+            },
 
-        counter.textContent =
-            `Together for ${days} ${
-                days === 1
-                    ? "day"
-                    : "days"
-            }`;
+            {
+                image: "📷",
+                caption: "A moment I'll always remember"
+            },
 
-    }
+            {
+                image: "📷",
+                caption: "One of my favorite days"
+            },
 
-}
+            {
+                image: "📷",
+                caption: "Us ♡"
+            },
 
+            {
+                image: "📷",
+                caption: "Another memory"
+            }
 
-/* =========================
-   FLOATING HEARTS / BEARS
-========================= */
-
-const symbols = [
-
-    "♡",
-    "🤍",
-    "♥",
-    "♡",
-    "🧸",
-    "♡",
-    "🤍",
-    "♥"
-
-];
-
-
-function createFloating() {
-
-    const element =
-        document.createElement("div");
-
-
-    element.className =
-        "floating";
-
-
-    element.textContent =
-        symbols[
-            Math.floor(
-                Math.random()
-                * symbols.length
-            )
         ];
 
 
-    const size =
-        16 +
-        Math.random() * 13;
+        let currentMemory = 0;
 
 
-    const position =
-        Math.random() * 100;
+        function updateMemory() {
+
+            const memory =
+                memories[currentMemory];
+
+            document
+                .getElementById("memoryImage")
+                .textContent =
+                memory.image;
+
+            document
+                .getElementById("memoryCaption")
+                .textContent =
+                memory.caption;
+
+            document
+                .getElementById("memoryCounter")
+                .textContent =
+                (currentMemory + 1) +
+                " / " +
+                memories.length;
+
+        }
 
 
-    const duration =
-        20 +
-        Math.random() * 12;
+        function nextMemory() {
+
+            currentMemory++;
+
+            if (
+                currentMemory >=
+                memories.length
+            ) {
+                currentMemory = 0;
+            }
+
+            updateMemory();
+
+        }
 
 
-    const delay =
-        Math.random() *
-        -duration;
+        function previousMemory() {
+
+            currentMemory--;
+
+            if (
+                currentMemory < 0
+            ) {
+                currentMemory =
+                    memories.length - 1;
+            }
+
+            updateMemory();
+
+        }
 
 
-    const drift =
-        (
-            Math.random()
-            * 120
-            - 60
-        ) + "px";
+        updateMemory();
 
 
-    element.style.left =
-        position + "%";
+        /* =========================================================
+           BIRTHDAY PRESENT
+        ========================================================= */
 
+        function openPresent() {
 
-    element.style.fontSize =
-        size + "px";
+            document
+                .getElementById("emptyPresent")
+                .classList
+                .add("visible");
 
+        }
 
-    element.style.animationDuration =
-        duration + "s";
-
-
-    element.style.animationDelay =
-        delay + "s";
-
-
-    element.style.setProperty(
-        "--drift",
-        drift
-    );
-
-
-    document
-        .getElementById(
-            "floating-background"
-        )
-        .appendChild(element);
-
-}
-
-
-/* Create background decorations */
-
-for (
-    let i = 0;
-    i < 18;
-    i++
-) {
-
-    createFloating();
-
-}
-
-
-/* Start counter */
-
-updateCounter();
-
-</script>
-
+    </script>
 
 </body>
 </html>
