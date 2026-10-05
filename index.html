@@ -11,10 +11,6 @@
     <title>A Virtual Book About Us</title>
 
     <style>
-        /* =========================================================
-           BASIC SETUP
-        ========================================================= */
-
         * {
             box-sizing: border-box;
             margin: 0;
@@ -230,24 +226,11 @@
             pointer-events: none;
         }
 
-        .photo-placeholder {
+        .polaroid-image {
+            display: block;
             width: 100%;
             aspect-ratio: 1 / 1;
-
-            display: flex;
-            align-items: center;
-            justify-content: center;
-
-            background:
-                linear-gradient(
-                    135deg,
-                    #eee8df,
-                    #e4ddd3
-                );
-
-            color: #9a9188;
-
-            font-size: 38px;
+            object-fit: cover;
         }
 
         .polaroid-caption {
@@ -518,23 +501,10 @@
         }
 
         .memory-image {
+            display: block;
             width: 100%;
             aspect-ratio: 4 / 5;
-
-            background:
-                linear-gradient(
-                    135deg,
-                    #eee8df,
-                    #e4ddd3
-                );
-
-            display: flex;
-            align-items: center;
-            justify-content: center;
-
-            color: #9a9188;
-
-            font-size: 45px;
+            object-fit: cover;
         }
 
         .memory-caption {
@@ -594,8 +564,9 @@
 
         .songs {
             position: relative;
-
-            min-height: 500px;
+            min-height: 2650px;
+            width: 100%;
+            overflow: hidden;
         }
 
         .song-card {
@@ -627,24 +598,10 @@
         }
 
         .song-cover {
+            display: block;
             width: 100%;
-
             aspect-ratio: 1 / 1;
-
-            display: flex;
-            align-items: center;
-            justify-content: center;
-
-            background:
-                linear-gradient(
-                    135deg,
-                    #e8e1d8,
-                    #dcd3c8
-                );
-
-            color: #9a9188;
-
-            font-size: 34px;
+            object-fit: cover;
         }
 
         .song-name {
@@ -665,35 +622,21 @@
             text-align: center;
         }
 
-        .song-1 {
-            top: 10px;
-            left: 4%;
-            transform: rotate(-6deg);
-        }
-
-        .song-2 {
-            top: 30px;
-            right: 3%;
-            transform: rotate(7deg);
-        }
-
-        .song-3 {
-            top: 220px;
-            left: 28%;
-            transform: rotate(-2deg);
-        }
-
-        .song-4 {
-            top: 380px;
-            left: 5%;
-            transform: rotate(5deg);
-        }
-
-        .song-5 {
-            top: 365px;
-            right: 4%;
-            transform: rotate(-7deg);
-        }
+        .song-card:nth-child(1)  { top: 20px;   left: 3%;  transform: rotate(-6deg); }
+        .song-card:nth-child(2)  { top: 25px;   right: 3%; transform: rotate(7deg); }
+        .song-card:nth-child(3)  { top: 310px;  left: 29%; transform: rotate(-2deg); }
+        .song-card:nth-child(4)  { top: 590px;  left: 4%;  transform: rotate(5deg); }
+        .song-card:nth-child(5)  { top: 575px;  right: 3%; transform: rotate(-7deg); }
+        .song-card:nth-child(6)  { top: 860px;  left: 25%; transform: rotate(4deg); }
+        .song-card:nth-child(7)  { top: 1135px; left: 3%;  transform: rotate(-5deg); }
+        .song-card:nth-child(8)  { top: 1120px; right: 3%; transform: rotate(6deg); }
+        .song-card:nth-child(9)  { top: 1405px; left: 29%; transform: rotate(-3deg); }
+        .song-card:nth-child(10) { top: 1685px; left: 4%;  transform: rotate(7deg); }
+        .song-card:nth-child(11) { top: 1670px; right: 3%; transform: rotate(-6deg); }
+        .song-card:nth-child(12) { top: 1950px; left: 25%; transform: rotate(3deg); }
+        .song-card:nth-child(13) { top: 2225px; left: 3%;  transform: rotate(-7deg); }
+        .song-card:nth-child(14) { top: 2210px; right: 3%; transform: rotate(5deg); }
+        .song-card:nth-child(15) { top: 2490px; left: 29%; transform: rotate(-4deg); }
 
         /* =========================================================
            BIRTHDAY PRESENT
@@ -804,6 +747,30 @@
             .scrapbook {
                 height: 650px;
             }
+
+            .song-card {
+                width: 145px;
+            }
+
+            .songs {
+                min-height: 2350px;
+            }
+
+            .song-card:nth-child(1)  { top: 20px; }
+            .song-card:nth-child(2)  { top: 25px; }
+            .song-card:nth-child(3)  { top: 285px; }
+            .song-card:nth-child(4)  { top: 545px; }
+            .song-card:nth-child(5)  { top: 530px; }
+            .song-card:nth-child(6)  { top: 795px; }
+            .song-card:nth-child(7)  { top: 1060px; }
+            .song-card:nth-child(8)  { top: 1045px; }
+            .song-card:nth-child(9)  { top: 1310px; }
+            .song-card:nth-child(10) { top: 1575px; }
+            .song-card:nth-child(11) { top: 1560px; }
+            .song-card:nth-child(12) { top: 1825px; }
+            .song-card:nth-child(13) { top: 2090px; }
+            .song-card:nth-child(14) { top: 2075px; }
+            .song-card:nth-child(15) { top: 2340px; }
         }
     </style>
 </head>
@@ -861,7 +828,7 @@
                 >
 
                     <div class="photo-placeholder">
-                        ♡
+                        <img class="polaroid-image" src="photos/memory1.jpeg" alt="A Letter For You">
                     </div>
 
                     <div class="polaroid-caption">
@@ -880,7 +847,7 @@
                 >
 
                     <div class="photo-placeholder">
-                        📷
+                        <img class="polaroid-image" src="photos/memory2.jpeg" alt="Our Memories">
                     </div>
 
                     <div class="polaroid-caption">
@@ -899,7 +866,7 @@
                 >
 
                     <div class="photo-placeholder">
-                        ♡
+                        <img class="polaroid-image" src="photos/memory3.jpeg" alt="Our Story">
                     </div>
 
                     <div class="polaroid-caption">
@@ -918,7 +885,7 @@
                 >
 
                     <div class="photo-placeholder">
-                        ♪
+                        <img class="polaroid-image" src="photos/memory4.jpeg" alt="Our Soundtrack">
                     </div>
 
                     <div class="polaroid-caption">
@@ -937,7 +904,7 @@
                 >
 
                     <div class="photo-placeholder">
-                        🎁
+                        <img class="polaroid-image" src="photos/memory5.JPG" alt="Birthday Present">
                     </div>
 
                     <div class="polaroid-caption">
@@ -1148,12 +1115,12 @@
 
                 <div class="memory-viewer">
 
-                    <div
+                    <img
                         class="memory-image"
                         id="memoryImage"
+                        src="photos/photo1.jpeg"
+                        alt="Memory 1"
                     >
-                        📷
-                    </div>
 
                     <div
                         class="memory-caption"
@@ -1178,7 +1145,7 @@
                         class="memory-counter"
                         id="memoryCounter"
                     >
-                        1 / 5
+                        1 / 15
                     </div>
 
                     <button
@@ -1218,125 +1185,7 @@
                     Songs that remind me of us ♡
                 </p>
 
-
-                <div class="songs">
-
-
-                    <!-- SONG 1 -->
-
-                    <a
-                        class="song-card song-1"
-                        href="#"
-                        target="_blank"
-                    >
-
-                        <div class="song-cover">
-                            ♪
-                        </div>
-
-                        <div class="song-name">
-                            Song Name
-                        </div>
-
-                        <div class="song-artist">
-                            Artist
-                        </div>
-
-                    </a>
-
-
-                    <!-- SONG 2 -->
-
-                    <a
-                        class="song-card song-2"
-                        href="#"
-                        target="_blank"
-                    >
-
-                        <div class="song-cover">
-                            ♪
-                        </div>
-
-                        <div class="song-name">
-                            Song Name
-                        </div>
-
-                        <div class="song-artist">
-                            Artist
-                        </div>
-
-                    </a>
-
-
-                    <!-- SONG 3 -->
-
-                    <a
-                        class="song-card song-3"
-                        href="#"
-                        target="_blank"
-                    >
-
-                        <div class="song-cover">
-                            ♪
-                        </div>
-
-                        <div class="song-name">
-                            Song Name
-                        </div>
-
-                        <div class="song-artist">
-                            Artist
-                        </div>
-
-                    </a>
-
-
-                    <!-- WHITE KEYS -->
-
-                    <a
-                        class="song-card song-4"
-                        href="#"
-                        target="_blank"
-                    >
-
-                        <div class="song-cover">
-                            ♫
-                        </div>
-
-                        <div class="song-name">
-                            White Keys
-                        </div>
-
-                        <div class="song-artist">
-                            Special Song
-                        </div>
-
-                    </a>
-
-
-                    <!-- SONG 5 -->
-
-                    <a
-                        class="song-card song-5"
-                        href="#"
-                        target="_blank"
-                    >
-
-                        <div class="song-cover">
-                            ♪
-                        </div>
-
-                        <div class="song-name">
-                            Song Name
-                        </div>
-
-                        <div class="song-artist">
-                            Artist
-                        </div>
-
-                    </a>
-
-                </div>
+                <div class="songs" id="songs"></div>
 
             </div>
 
@@ -1740,32 +1589,21 @@
         ========================================================= */
 
         const memories = [
-
-            {
-                image: "📷",
-                caption: "Our first memory"
-            },
-
-            {
-                image: "📷",
-                caption: "A moment I'll always remember"
-            },
-
-            {
-                image: "📷",
-                caption: "One of my favorite days"
-            },
-
-            {
-                image: "📷",
-                caption: "Us ♡"
-            },
-
-            {
-                image: "📷",
-                caption: "Another memory"
-            }
-
+            { image: "photos/photo1.jpeg",  caption: "Memory 1" },
+            { image: "photos/photo2.jpeg",  caption: "Memory 2" },
+            { image: "photos/photo3.jpeg",  caption: "Memory 3" },
+            { image: "photos/photo4.jpeg",  caption: "Memory 4" },
+            { image: "photos/photo5.jpeg",  caption: "Memory 5" },
+            { image: "photos/photo6.jpeg",  caption: "Memory 6" },
+            { image: "photos/photo7.jpeg",  caption: "Memory 7" },
+            { image: "photos/photo8.JPG",   caption: "Memory 8" },
+            { image: "photos/photo9.JPG",   caption: "Memory 9" },
+            { image: "photos/photo10.JPG",  caption: "Memory 10" },
+            { image: "photos/photo11.JPG",  caption: "Memory 11" },
+            { image: "photos/photo12.JPG",  caption: "Memory 12" },
+            { image: "photos/photo13.JPG",  caption: "Memory 13" },
+            { image: "photos/photo14.jpeg", caption: "Memory 14" },
+            { image: "photos/photo15.jpeg", caption: "Memory 15" }
         ];
 
 
@@ -1777,10 +1615,11 @@
             const memory =
                 memories[currentMemory];
 
-            document
-                .getElementById("memoryImage")
-                .textContent =
-                memory.image;
+            const memoryImage =
+                document.getElementById("memoryImage");
+
+            memoryImage.src = memory.image;
+            memoryImage.alt = memory.caption;
 
             document
                 .getElementById("memoryCaption")
@@ -1830,6 +1669,168 @@
 
 
         updateMemory();
+
+
+        /* =========================================================
+           SOUNDTRACK
+        ========================================================= */
+
+        const soundtrackSongs = [
+            {
+                title: "White Keys",
+                artist: "Dominic Fike",
+                cover: "photos/White Keys.jpg",
+                link: "PASTE_YOUR_WHITE_KEYS_PLAYLIST_LINK_HERE"
+            },
+            {
+                title: "Young Dumb & Broke",
+                artist: "Khalid",
+                cover: "photos/YDMB.jpg",
+                link: "https://open.spotify.com/track/5Z3GHaZ6ec9bsiI5BenrbY"
+            },
+            {
+                title: "Raindance",
+                artist: "Dave, Tems",
+                cover: "photos/Raindance.jpg",
+                link: "https://open.spotify.com/track/3oTuTpF1F3A7rEC6RKsMRz"
+            },
+            {
+                title: "Sign Of The Times",
+                artist: "Harry Styles",
+                cover: "photos/Sign of the Times.jpeg",
+                link: "https://open.spotify.com/track/5Ohxk2dO5COHF1krpoPigN"
+            },
+            {
+                title: "Thinking Bout You",
+                artist: "Frank Ocean",
+                cover: "photos/ThinkingBYou.jpeg",
+                link: "https://open.spotify.com/track/7DfFc7a6Rwfi3YQMRbDMau"
+            },
+            {
+                title: "Hey There Delilah",
+                artist: "Plain White T’s",
+                cover: "photos/HeyThere.jpeg",
+                link: "https://open.spotify.com/track/4RCWB3V8V0dignt99LZ8vH"
+            },
+            {
+                title: "Babydoll",
+                artist: "Dominic Fike",
+                cover: "photos/babydoll.jpeg",
+                link: "https://open.spotify.com/track/7yNf9YjeO5JXUE3JEBgnYc"
+            },
+            {
+                title: "White Ferrari",
+                artist: "Frank Ocean",
+                cover: "photos/whitef.jpeg",
+                link: "https://open.spotify.com/track/2LMkwUfqC6S6s6qDVlEuzV"
+            },
+            {
+                title: "Ojitos Lindos",
+                artist: "Bad Bunny",
+                cover: "photos/ojitosli.jpeg",
+                link: "https://open.spotify.com/track/3k3NWokhRRkEPhCzPmV8TW"
+            },
+            {
+                title: "Sweater Weather",
+                artist: "The Neighbourhood",
+                cover: "photos/swt.jpeg",
+                link: "https://open.spotify.com/track/2QjOHCTQ1Jl3zawyYOpxh6"
+            },
+            {
+                title: "Just The Way You Are",
+                artist: "Bruno Mars",
+                cover: "photos/js tw u aare.jpeg",
+                link: "https://open.spotify.com/track/47Slg6LuqLaX0VodpSCvPt"
+            },
+            {
+                title: "Love Me Not",
+                artist: "Ravyn Lenae",
+                cover: "photos/lvmenot.jpeg",
+                link: "https://open.spotify.com/track/1UNEuG9DYOWiikf00ayr52"
+            },
+            {
+                title: "Save Your Tears",
+                artist: "The Weeknd",
+                cover: "photos/svtears.jpeg",
+                link: "https://open.spotify.com/track/5QO79kh1waicV47BqGRL3g"
+            },
+            {
+                title: "Lovely",
+                artist: "Billie Eilish, Khalid",
+                cover: "photos/lovely.jpeg",
+                link: "https://open.spotify.com/track/0u2P5u6lvoDfwTYjAADbn4"
+            },
+            {
+                title: "Closer",
+                artist: "The Chainsmokers, Halsey",
+                cover: "photos/closer.jpeg",
+                link: "https://open.spotify.com/track/7BKLCZ1jbUBVqRi2FVlTVw"
+            }
+        ];
+
+
+        const songsContainer =
+            document.getElementById("songs");
+
+
+        soundtrackSongs.forEach(function (song) {
+
+            const card =
+                document.createElement("a");
+
+            card.className =
+                "song-card";
+
+            card.href =
+                song.link;
+
+            card.target =
+                "_blank";
+
+            card.rel =
+                "noopener noreferrer";
+
+
+            const cover =
+                document.createElement("img");
+
+            cover.className =
+                "song-cover";
+
+            cover.src =
+                song.cover;
+
+            cover.alt =
+                song.title;
+
+
+            const name =
+                document.createElement("div");
+
+            name.className =
+                "song-name";
+
+            name.textContent =
+                song.title;
+
+
+            const artist =
+                document.createElement("div");
+
+            artist.className =
+                "song-artist";
+
+            artist.textContent =
+                song.artist;
+
+
+            card.appendChild(cover);
+            card.appendChild(name);
+            card.appendChild(artist);
+
+            songsContainer.appendChild(card);
+
+        });
 
 
         /* =========================================================
